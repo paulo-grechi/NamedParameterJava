@@ -19,7 +19,7 @@ ResultSet result = stmt.executeQuery();
 ## NamedParameterJava
 Searching around I stumbled upon a class that worked for SpringBoot for named parameter queries.  
 However, since I don't use it on a daily basis I had to create a solution for my current needs.  
-[Here's the link for the SpringBoot package]()
+[Here's the link for the SpringBoot package](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/jdbc/core/namedparam/NamedParameterJdbcTemplate.html)
 
 ## Usage
 ```
