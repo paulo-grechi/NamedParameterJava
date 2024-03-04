@@ -24,7 +24,7 @@ public class NamedParamStatement {
                 int end = subSql.indexOf(" ", pos);
                 // caso não tenha um espaço entre o parâmetro nomeado e um possível casting, para não acabar sumindo com o casting
                 //hint recomendo que dê-se um espaço após o parâmetro caso algum outro carácter venha depois, ou fazer a mesma tratativa para o carácter em específico
-                end = end < subSql.indexOf("::", pos) ? end : subSql.contains("::") ?  subSql.indexOf("::", pos) : end;
+                end = end < subSql.indexOf("::", pos) ? end : subSql.indexOf("::", pos) > -1 ?  subSql.indexOf("::", pos) : end;
                 if (end == -1) {
                     end = subSql.length();
                 }
