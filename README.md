@@ -1,9 +1,9 @@
-# NamedParameterJava
+## NamedParameterJava
 Vasculhando eu acabei achando uma classe que funciona em Spring para queries com parâmetro nomeado.  
 Mas como não uso Spring no dia-a-dia precisei criar uma solução para a minha necessidade.  
 [Eis o link para o package de Spring para parâmetros nomeados](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/jdbc/core/namedparam/NamedParameterJdbcTemplate.html)
 
-# Exemplo de Uso
+## Exemplo de Uso
 ```
 import NamedParamStatement;
 
@@ -15,13 +15,13 @@ stmt.setString("teste", "teste 123");
 ResultSet result = stmt.executeQuery();
 ```
 
-### README English Version
-# NamedParameterJava
+# README English Version
+## NamedParameterJava
 Searching around I stumbled upon a class that worked for SpringBoot for named parameter queries.  
 However, since I don't use it on a daily basis I had to create a solution for my current needs.  
 [Here's the link for the SpringBoot package]()
 
-# Usage
+## Usage
 ```
 import NamedParamStatement;
 
