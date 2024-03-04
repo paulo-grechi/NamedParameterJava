@@ -14,3 +14,21 @@ stmt.setString("campo", "campo 321");
 stmt.setString("teste", "teste 123");
 ResultSet result = stmt.executeQuery();
 ```
+
+### README English Version
+# NamedParameterJava
+Searching around I stumbled upon a class that worked for SpringBoot for named parameter queries.  
+However, since I don't use it on a daily basis I had to create a solution for my current needs.  
+[Here's the link for the SpringBoot package]()
+
+# Usage
+```
+import NamedParamStatement;
+
+
+String sql = "SELECT * FROM test_table where test_field = :testField and test_field_ii = :testFieldII";
+NamedParamStatement stmt = new NamedParamStatement(dbContext, sql);
+stmt.setString("testField", "field 321");
+stmt.setString("testFieldII", "test 123");
+ResultSet result = stmt.executeQuery();
+```
