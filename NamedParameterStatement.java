@@ -14,28 +14,13 @@ public class NamedParamStatement {
     public NamedParamStatement(final BaseDatabaseContext conn, String sql) throws SQLException {
         try {
             int pos;
-            String subSql = sql;
-            while ((pos = subSql.indexOf(":")) != -1) {
-                // quando for encontrado um padrão de casting do SQL, quebra a string a partir dali e continua
-                if (pos == subSql.indexOf("::")){
-                    subSql = subSql.substring(pos + 2);
-                    continue;
-                }
-                int end = subSql.indexOf(" ", pos);
-                // caso não tenha um espaço entre o parâmetro nomeado e um possível casting, para não acabar sumindo com o casting
-                //hint recomendo que dê-se um espaço após o parâmetro caso algum outro carácter venha depois, ou fazer a mesma tratativa para o carácter em específico
-                end = end < subSql.indexOf("::", pos) ? end : subSql.indexOf("::", pos) > -1 ?  subSql.indexOf("::", pos) : end;
-                if (end == -1) {
-                    end = subSql.length();
-                }
-                fields.add(subSql.substring(pos + 1, end));
-                if (subSql.length() == sql.length()){
-                    sql = subSql.substring(0, pos) + "?" + subSql.substring(end);
-                } else {
-                    sql = sql.substring(0, sql.indexOf(subSql));
-                    sql = sql + subSql.substring(0, pos) + "?" + subSql.substring(end);
-                }
-                subSql = subSql.substring(0, pos) + "?" + subSql.substring(end);
+            // enquanto achar o padrão [$ busca parâmetros
+            while ((pos = sql.indexOf("[$")) != -1) {
+                int end = sql.indexOf("]", pos);
+                // adiciona o nome do parâmetro criado na lista
+                fields.add(sql.substring(pos + 2, end));
+                // substitui o parâmetro pelo parâmetro do PreparedStatement
+                sql = sql.substring(0, pos) + "?" + sql.substring(end + 1);
             }
             prepStmt = conn.getPreparedStatement(sql);
         } catch (Exception e){
@@ -59,72 +44,69 @@ public class NamedParamStatement {
 
     public void setInt(final String name, final int value) throws SQLException {
         for(int index : getIndex(name)) {
-            prepStmt.setInt(index, value);
+            prepStmt.setInt(index + 1, value);
         }
     }
 
     public void setString(final String name, final String value) throws SQLException{
         for(int index : getIndex(name)){
-            prepStmt.setString(index, value);
+            prepStmt.setString(index + 1, value);
         }
     }
 
     public void setArray(final String name, final Array value) throws SQLException{
         for(int index : getIndex(name)){
-            prepStmt.setArray(index, value);
+            prepStmt.setArray(index + 1, value);
         }
     }
 
     public void setBoolean(final String name, final Boolean value) throws SQLException{
         for(int index : getIndex(name)){
-            prepStmt.setBoolean(index, value);
+            prepStmt.setBoolean(index + 1, value);
         }
     }
 
     public void setDouble(final String name, final Double value) throws SQLException{
         for(int index : getIndex(name)){
-            prepStmt.setDouble(index, value);
+            prepStmt.setDouble(index + 1, value);
         }
     }
 
     public void setFloat(final String name, final Float value) throws SQLException{
         for(int index : getIndex(name)){
-            prepStmt.setFloat(index, value);
+            prepStmt.setFloat(index + 1, value);
         }
     }
 
     public void setBlob (final String name, final Blob value) throws SQLException{
         for(int index : getIndex(name)){
-            prepStmt.setBlob(index, value);
+            prepStmt.setBlob(index + 1, value);
         }
     }
 
     public void setDate(final String name, final Date value) throws SQLException{
         for(int index : getIndex(name)){
-            prepStmt.setDate(index, value);
+            prepStmt.setDate(index + 1, value);
         }
     }
 
     public void setTime(final String name, final Time value) throws SQLException{
         for(int index : getIndex(name)){
-            prepStmt.setTime(index, value);
+            prepStmt.setTime(index + 1, value);
         }
     }
 
     public void setTimestamp(final String name, final Timestamp value) throws SQLException{
         for(int index : getIndex(name)){
-            prepStmt.setTimestamp(index, value);
+            prepStmt.setTimestamp(index + 1, value);
         }
     }
 
     private List<Integer> getIndex(final String name) {
-        List<Integer> indexes = new ArrayList<>();
-        int index = 1;
-        for (String id: fields) {
-            if(id.equals(name))
-                indexes.add(index);
-            index++;
-        }
+        List<Integer> indexes = IntStream.range(0, fields.size())
+                .filter(i -> name.equals(fields.get(i)))
+                .boxed()
+                .collect(Collectors.toList());
         return indexes;
     }
 }
