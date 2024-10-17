@@ -109,4 +109,10 @@ public class NamedParamStatement {
                 .collect(Collectors.toList());
         return indexes;
     }
+
+    public static <T> java.sql.Array createAray(List<T> list, BaseDatabaseContext dbContext, String type) throws Exception {
+        T[] data = (T[]) list.toArray(new Object[list.size()]);
+        Array array = dbContext.createArray(type, data);
+        return array;
+    }
 }
