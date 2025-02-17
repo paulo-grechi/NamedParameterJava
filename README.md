@@ -9,7 +9,7 @@ import NamedParamStatement;
 
 
 String sql = "SELECT * FROM tabela where campo = [$campo] and teste = [$teste]";
-NamedParamStatement stmt = new NamedParamStatement(dbContext, sql);
+NamedParamStatement stmt = new NamedParamStatement(classeConexao, sql);
 stmt.setString("campo", "campo 321");
 stmt.setString("teste", "teste 123");
 ResultSet result = stmt.executeQuery();
@@ -27,7 +27,7 @@ import NamedParamStatement;
 
 
 String sql = "SELECT * FROM test_table where test_field = [$testField] and test_field_ii = [$testFieldII]";
-NamedParamStatement stmt = new NamedParamStatement(dbContext, sql);
+NamedParamStatement stmt = new NamedParamStatement(dbConnectionClass, sql);
 stmt.setString("testField", "field 321");
 stmt.setString("testFieldII", "test 123");
 ResultSet result = stmt.executeQuery();
