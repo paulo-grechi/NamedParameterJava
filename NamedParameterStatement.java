@@ -1,6 +1,5 @@
-// as Classes de conexão usadas
+// a classe utilizada para a conexão com o banco de dados
 import BaseDatabaseContext;
-import DatabaseContext;
 
 import java.sql.*;
 import java.util.ArrayList;
